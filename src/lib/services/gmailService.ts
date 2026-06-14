@@ -125,9 +125,9 @@ export async function fetchEmails(
       return;
     }
 
-    // Batch fetch message details (in chunks of 20)
+    // Batch fetch message details (in chunks of 10)
     const emails: Email[] = [];
-    const chunkSize = 20;
+    const chunkSize = 10;
 
     for (let i = 0; i < messageIds.length; i += chunkSize) {
       const chunk = messageIds.slice(i, i + chunkSize);

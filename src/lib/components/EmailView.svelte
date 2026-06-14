@@ -105,7 +105,7 @@
           <iframe
             srcdoc={email.bodyHtml}
             class="body-iframe"
-            sandbox="allow-same-origin"
+            sandbox=""
             title="Email content"
           ></iframe>
         {:else}

@@ -229,6 +229,7 @@ pub async fn restore_session() -> Result<Option<AuthTokens>, String> {
 
 #[tauri::command]
 pub async fn refresh_access_token(
+    client_id: String,
     refresh_token: String,
 ) -> Result<serde_json::Value, String> {
     let client = reqwest::Client::new();
@@ -237,6 +238,7 @@ pub async fn refresh_access_token(
         .form(&[
             ("grant_type", "refresh_token"),
             ("refresh_token", refresh_token.as_str()),
+            ("client_id", client_id.as_str()),
         ])
         .send()
         .await

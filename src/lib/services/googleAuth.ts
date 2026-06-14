@@ -2,7 +2,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { auth } from '$lib/stores/auth';
 import type { GoogleUser } from '$lib/types';
 
-const GOOGLE_CLIENT_ID = ''; // User fills in from Google Cloud Console
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''; // Loaded from .env file
 const SCOPES = [
   'https://www.googleapis.com/auth/gmail.modify',
   'https://www.googleapis.com/auth/gmail.readonly',
@@ -73,6 +73,7 @@ export async function tryRestoreSession(): Promise<void> {
           access_token: string;
           expires_in: number;
         }>('refresh_access_token', {
+          clientId: GOOGLE_CLIENT_ID,
           refreshToken: stored.refresh_token
         });
         accessToken = refreshed.access_token;
