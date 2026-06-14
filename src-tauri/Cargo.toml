@@ -1,0 +1,26 @@
+[package]
+name = "ghostmail"
+version = "1.0.0"
+edition = "2021"
+description = "Open-source Google Workspace hub with Tokyo Night theme"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-shell = "2"
+tauri-plugin-store = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.12", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+tiny_http = "0.12"
+url = "2"
+keyring = "3"
+uuid = { version = "1", features = ["v4"] }
+open = "5"
+rand = "0.8"
+sha2 = "0.10"
+base64 = "0.22"
+urlencoding = "2"
