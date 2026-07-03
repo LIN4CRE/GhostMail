@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useStore } from './stores/useStore';
 import { useKeyboard } from './hooks/useKeyboard';
@@ -18,14 +18,32 @@ import { ComposeModal } from './components/ComposeModal';
 import { CommandPalette } from './components/CommandPalette';
 import { SettingsPanel } from './components/SettingsPanel';
 import { Onboarding } from './components/Onboarding';
+import { LabelManager } from './components/LabelManager';
 
 export default function App() {
   useKeyboard();
-  const { isAuthenticated, currentView, showEmailView, activeEmail } = useStore();
+  const { isAuthenticated, isLoading, currentView, showEmailView, activeEmail, restoreSession } = useStore();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    restoreSession();
+  }, [restoreSession]);
 
   const openMobileSidebar = useCallback(() => setMobileSidebarOpen(true), []);
   const closeMobileSidebar = useCallback(() => setMobileSidebarOpen(false), []);
+
+  if (!isAuthenticated && isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-tn-bg-darker">
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-tn-blue via-tn-purple to-tn-magenta animate-pulse">
+            <span className="text-2xl">👻</span>
+          </div>
+          <p className="text-sm text-tn-fg-muted">Connecting to Gmail...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -90,6 +108,7 @@ export default function App() {
       <CommandPalette />
       <SettingsPanel />
       <Onboarding />
+      <LabelManager />
       <Toast />
     </div>
   );

@@ -15,7 +15,7 @@ export function MobileSidebar({ open, onClose }: { open: boolean; onClose: () =>
   const {
     labels, activeLabel, setActiveLabel, currentView, setCurrentView,
     logout, user, setShowCompose, setShowCommandPalette, setShowSettings,
-    refreshEmails, isLoading
+    setShowLabelManager, refreshEmails, isLoading
   } = useStore();
 
   const nav = (view: typeof currentView, label?: string) => {
@@ -98,6 +98,7 @@ export function MobileSidebar({ open, onClose }: { open: boolean; onClose: () =>
               <MobileNavItem icon={<Command size={16} />} label="Commands ⌘K" onClick={() => { setShowCommandPalette(true); onClose(); }} />
               <MobileNavItem icon={<RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />} label="Refresh" onClick={() => { refreshEmails(); onClose(); }} />
               <MobileNavItem icon={<Settings size={16} />} label="Settings" onClick={() => { setShowSettings(true); onClose(); }} />
+              <MobileNavItem icon={<Tag size={16} />} label="Manage Labels" onClick={() => { setShowLabelManager(true); onClose(); }} color="text-tn-purple" />
 
               <div className="flex items-center gap-2 rounded-xl px-3 py-2.5 mt-2">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-tn-purple to-tn-blue text-xs font-bold text-white">

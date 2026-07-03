@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, LogOut, Settings, HelpCircle, Moon, Shield, ExternalLink } from 'lucide-react';
+import { LogOut, Settings, HelpCircle, Shield, ExternalLink } from 'lucide-react';
 import { useStore } from '../stores/useStore';
 
 export function ProfileDropdown() {
-  const { user, logout, setShowSettings, setShowOnboarding, emails, notify } = useStore();
+  const { user, logout, setShowSettings, setShowOnboarding, emails } = useStore();
   const [open, setOpen] = useState(false);
 
   if (!user) return null;
@@ -24,13 +24,11 @@ export function ProfileDropdown() {
           <>
             <div className="fixed inset-0 z-[49]" onClick={() => setOpen(false)} />
             <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: -8, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               className="absolute right-0 top-10 z-50 w-72 rounded-2xl border border-tn-border bg-tn-bg-dark p-1.5 shadow-2xl"
             >
-              {/* User card */}
               <div className="rounded-xl bg-gradient-to-br from-tn-bg-highlight to-tn-bg-float p-4 mb-1">
                 <div className="flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-tn-purple to-tn-blue text-lg font-bold text-white shadow-lg shadow-tn-purple/20">
@@ -53,23 +51,20 @@ export function ProfileDropdown() {
                 </div>
               </div>
 
-              {/* Menu items */}
-              <MenuItem icon={<User size={14} />} label="My Profile" onClick={() => { notify('info', 'Profile view coming soon'); setOpen(false); }} />
               <MenuItem icon={<Settings size={14} />} label="Settings" shortcut="," onClick={() => { setShowSettings(true); setOpen(false); }} />
-              <MenuItem icon={<Moon size={14} />} label="Theme" badge="Tokyo Night" onClick={() => { notify('info', 'Theme options in Settings'); setOpen(false); }} />
               <MenuItem icon={<Shield size={14} />} label="Privacy" badge="✓ Secure" badgeColor="text-tn-green" onClick={() => { setShowSettings(true); setOpen(false); }} />
               <MenuItem icon={<HelpCircle size={14} />} label="Help & Shortcuts" shortcut="?" onClick={() => { setShowOnboarding(true); setOpen(false); }} />
 
               <div className="mx-2 my-1 border-t border-tn-border/50" />
 
-              <MenuItem icon={<ExternalLink size={14} />} label="GitHub" onClick={() => { window.open('https://github.com/LIN4CRE/GhostMail', '_blank'); setOpen(false); }} />
+              <MenuItem icon={<ExternalLink size={14} />} label="GitHub"
+                onClick={() => { window.open('https://github.com/LIN4CRE/GhostMail', '_blank'); setOpen(false); }} />
 
               <div className="mx-2 my-1 border-t border-tn-border/50" />
 
               <button onClick={() => { logout(); setOpen(false); }}
                 className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-xs text-tn-red hover:bg-tn-red/10 transition-colors">
-                <LogOut size={14} />
-                Sign out
+                <LogOut size={14} /> Sign out
               </button>
             </motion.div>
           </>

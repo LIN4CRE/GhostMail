@@ -18,7 +18,7 @@ interface Command {
 export function CommandPalette() {
   const {
     showCommandPalette, setShowCommandPalette, setCurrentView,
-    setShowCompose, setShowSettings, refreshEmails, selectAll,
+    setShowCompose, setShowSettings, setShowLabelManager, refreshEmails, selectAll,
     deselectAll, setActiveLabel, logout
   } = useStore();
 
@@ -39,6 +39,7 @@ export function CommandPalette() {
     { id: 'sent', label: 'View Sent', icon: <Send size={16} />, category: 'Labels', action: () => { setCurrentView('inbox'); setActiveLabel('SENT'); } },
     { id: 'trash', label: 'View Trash', icon: <Trash2 size={16} />, category: 'Labels', action: () => { setCurrentView('inbox'); setActiveLabel('TRASH'); } },
     { id: 'important', label: 'View Important', icon: <Tag size={16} />, category: 'Labels', action: () => { setCurrentView('inbox'); setActiveLabel('IMPORTANT'); } },
+    { id: 'labels', label: 'Manage Labels', icon: <Tag size={16} />, category: 'System', action: () => setShowLabelManager(true) },
     { id: 'settings', label: 'Open Settings', icon: <Settings size={16} />, category: 'System', shortcut: ',', action: () => setShowSettings(true) },
     { id: 'logout', label: 'Sign Out', icon: <LogOut size={16} />, category: 'System', action: logout },
   ], []);

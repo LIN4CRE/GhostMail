@@ -1,10 +1,3 @@
-export interface GoogleUser {
-  email: string;
-  name: string;
-  picture: string;
-  accessToken: string;
-}
-
 export interface Email {
   id: string;
   threadId: string;
@@ -37,17 +30,6 @@ export interface Attachment {
   size: number;
 }
 
-export interface EmailFilter {
-  query: string;
-  label: string;
-  isRead: boolean | null;
-  hasAttachment: boolean | null;
-  from: string;
-  dateAfter: Date | null;
-  dateBefore: Date | null;
-  sizeGreaterThan: number | null;
-}
-
 export interface LabelInfo {
   id: string;
   name: string;
@@ -75,12 +57,3 @@ export interface AppNotification {
 }
 
 export type ViewMode = 'comfortable' | 'compact' | 'cozy';
-export type SortOrder = 'newest' | 'oldest' | 'sender' | 'subject';
-
-export interface PaginationState {
-  nextPageToken: string | null;
-  previousPageTokens: string[];
-  currentPage: number;
-  totalEstimate: number;
-  pageSize: number;
-}

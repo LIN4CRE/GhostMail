@@ -24,16 +24,16 @@ export function Header({ onOpenMobileSidebar }: { onOpenMobileSidebar: () => voi
   const v = viewTitles[currentView] || viewTitles.inbox;
 
   return (
-    <header className="flex items-center gap-2 border-b border-tn-border bg-tn-bg-dark/80 backdrop-blur-sm px-3 py-2">
-      <button onClick={onOpenMobileSidebar} className="flex h-9 w-9 items-center justify-center rounded-lg text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-fg sm:hidden">
+    <header className="flex items-center gap-2 border-b border-tn-border bg-tn-bg-dark/60 backdrop-blur-md px-3 py-2">
+      <button onClick={onOpenMobileSidebar} className="flex h-9 w-9 items-center justify-center rounded-lg text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-fg sm:hidden" data-tip="Menu">
         <Menu size={20} />
       </button>
 
       <div className="flex items-center gap-2 min-w-0">
         <span className="text-base leading-none">{v.icon}</span>
         <h1 className="text-sm font-semibold text-tn-fg truncate">{v.title}</h1>
-        {currentLabel && currentView === 'inbox' && (
-          <span className="hidden xs:inline rounded-full bg-tn-bg-highlight px-2 py-0.5 text-[10px] text-tn-fg-muted">{currentLabel.totalCount}</span>
+        {currentLabel && currentView === 'inbox' && currentLabel.unreadCount > 0 && (
+          <span className="badge-warning rounded-full px-1.5 py-0.5 text-[9px] font-bold">{currentLabel.unreadCount}</span>
         )}
       </div>
 
@@ -42,41 +42,39 @@ export function Header({ onOpenMobileSidebar }: { onOpenMobileSidebar: () => voi
       )}
       <div className="flex-1 sm:hidden" />
 
-      {/* Bulk selection actions */}
+      {/* Bulk action bar — appears when emails selected */}
       <AnimatePresence>
         {selectedCount > 0 && currentView === 'inbox' && (
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="flex items-center gap-0.5">
-            <span className="mr-1 rounded-full bg-tn-blue/20 px-2 py-0.5 text-[10px] font-bold text-tn-blue">{selectedCount}</span>
-            <button onClick={() => { removeEmails([...selectedIds]); notify('success', `Archived ${selectedCount}`); }} title="Archive"
-              className="rounded-lg p-1.5 text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-fg"><Archive size={15} /></button>
-            <button onClick={() => { removeEmails([...selectedIds]); notify('success', `Deleted ${selectedCount}`); }} title="Delete"
-              className="rounded-lg p-1.5 text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-red"><Trash2 size={15} /></button>
-            <button onClick={() => { markAsRead([...selectedIds]); deselectAll(); notify('info', `Marked ${selectedCount} read`); }} title="Mark read"
-              className="rounded-lg p-1.5 text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-fg"><MailOpen size={15} /></button>
+          <motion.div initial={{ opacity: 0, scale: 0.9, width: 0 }} animate={{ opacity: 1, scale: 1, width: 'auto' }} exit={{ opacity: 0, scale: 0.9, width: 0 }}
+            className="flex items-center gap-0.5 overflow-hidden rounded-lg border border-tn-blue/20 bg-tn-blue/5 px-1.5 py-0.5">
+            <span className="px-1.5 text-[10px] font-bold text-tn-blue">{selectedCount}</span>
+            <button onClick={() => { removeEmails([...selectedIds]); notify('success', `Archived ${selectedCount}`); }} data-tip="Archive"
+              className="rounded-md p-1.5 text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-teal"><Archive size={14} /></button>
+            <button onClick={() => { removeEmails([...selectedIds]); notify('success', `Deleted ${selectedCount}`); }} data-tip="Delete"
+              className="rounded-md p-1.5 text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-red"><Trash2 size={14} /></button>
+            <button onClick={() => { markAsRead([...selectedIds]); deselectAll(); notify('info', `Marked ${selectedCount} read`); }} data-tip="Mark read"
+              className="rounded-md p-1.5 text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-green"><MailOpen size={14} /></button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Right side actions */}
+      {/* Right actions */}
       <div className="flex items-center gap-1">
-        <button onClick={() => setShowCommandPalette(true)} title="⌘K"
-          className="hidden md:flex h-8 items-center gap-1.5 rounded-lg border border-tn-border/50 bg-tn-bg-highlight/50 px-2.5 text-[10px] text-tn-fg-muted hover:border-tn-fg-gutter hover:text-tn-fg transition-colors">
-          <Command size={11} /> <span className="hidden lg:inline">Commands</span> <kbd className="rounded border border-tn-border bg-tn-bg-darker px-1 text-[9px]">⌘K</kbd>
+        <button onClick={() => setShowCommandPalette(true)} data-tip="Command Palette"
+          className="hidden md:flex h-8 items-center gap-1.5 rounded-lg border border-tn-border/40 bg-tn-bg-highlight/30 px-2.5 text-[10px] text-tn-fg-muted hover:border-tn-fg-gutter hover:text-tn-fg transition-colors">
+          <Command size={11} />
+          <span className="hidden lg:inline">Search commands</span>
+          <kbd className="rounded border border-tn-border/50 bg-tn-bg-darker px-1 text-[8px]">⌘K</kbd>
         </button>
-
-        <button onClick={() => setShowCompose(true)} title="Compose"
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-blue sm:hidden">
-          <PenSquare size={15} />
-        </button>
-
+        <button onClick={() => setShowCompose(true)} data-tip="Compose email"
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-blue sm:hidden"><PenSquare size={15} /></button>
         <div className="relative">
-          <button onClick={toggleAppLauncher}
+          <button onClick={toggleAppLauncher} data-tip="Google Apps"
             className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${showAppLauncher ? 'bg-tn-bg-highlight text-tn-teal' : 'text-tn-fg-muted hover:bg-tn-bg-highlight hover:text-tn-fg'}`}>
             <Grid3X3 size={15} />
           </button>
           <AnimatePresence>{showAppLauncher && <AppLauncherDropdown />}</AnimatePresence>
         </div>
-
         <ProfileDropdown />
       </div>
     </header>
@@ -92,7 +90,7 @@ function AppLauncherDropdown() {
       <div className="grid grid-cols-3 gap-1.5">
         {googleApps.slice(0, 12).map(app => (
           <a key={app.id} href={app.url} target="_blank" rel="noopener noreferrer" onClick={closeAppLauncher}
-            className="flex flex-col items-center gap-1 rounded-xl p-2.5 transition-colors hover:bg-tn-bg-highlight">
+            className="flex flex-col items-center gap-1 rounded-xl p-2.5 transition-all hover:bg-tn-bg-highlight hover-lift">
             <span className="text-xl">{app.icon}</span>
             <span className="text-[10px] text-tn-fg-muted">{app.name}</span>
           </a>
