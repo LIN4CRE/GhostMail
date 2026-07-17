@@ -38,3 +38,16 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## Support the Developer
+
+If you find this project or my other developer tools useful, consider supporting my craft:
+
+<p align="left">
+  <a href="https://paypal.me/DLinacre16">
+    <img src="https://www.linacre.site/paypal-qr-styled.png" alt="Sponsor David on PayPal" width="200">
+  </a>
+</p>
+
+Or send support directly via [paypal.me/DLinacre16](https://paypal.me/DLinacre16).
+
