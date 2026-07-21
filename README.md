@@ -1,3 +1,5 @@
+![GhostMail Banner](assets/banner.png)
+
 # GhostMail
 
 A feature-rich email client built with React, TypeScript, and Tailwind CSS. Provides a modern Gmail-style interface with compose, labels, search, snooze, and keyboard shortcuts.
